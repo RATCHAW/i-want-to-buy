@@ -4,15 +4,14 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo"
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import env from "./utils/env"
-import { join } from "path"
-import { UserModule } from "./user/user.module"
-import { UserResolver } from "./user/user.resolver"
+import { AuthModule } from "./auth/auth.module"
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: "schema.gql",
+      autoSchemaFile: "src/schema.gql",
+      context: ({ req, res }) => ({ req, res }),
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -23,7 +22,7 @@ import { UserResolver } from "./user/user.resolver"
       inject: [ConfigService],
     }),
     ConfigModule.forRoot({ load: [env], isGlobal: true }),
-    UserModule,
+    AuthModule,
   ],
   providers: [],
 })
