@@ -2,15 +2,18 @@
   "name": "@iwtb/schemas",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pnpm tsc && tsc-alias --dir=dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ts-loader": "^9.4.3",
+    "tsc-alias": "^1.8.10",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
   }
 }

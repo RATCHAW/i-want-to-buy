@@ -1,0 +1,26 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+type Query {
+  helloWorld: String!
+}
+
+type Mutation {
+  createUser(arg_0: ClassFromZod_1!): User!
+}
+
+input ClassFromZod_1 {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
