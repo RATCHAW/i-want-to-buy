@@ -19,10 +19,25 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  email     String @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   firstName String
   lastName  String
   /// @HideField()
   password  String
+  Product   Product[]
+}
+
+model Product {
+  id   Int  @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+
+  title       String
+  images      String[]
+  description String
+  phoneNumber String
+  price       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      Int
 }

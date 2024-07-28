@@ -2,11 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Product {
+  id: ID!
+  title: String!
+  images: [String!]
+  description: String!
+  phoneNumber: String!
+  price: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  userId: Int!
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserCount {
+  Product: Int!
+}
+
 type User {
   id: ID!
   email: String!
   firstName: String!
   lastName: String!
+  Product: [Product!]
+  _count: UserCount!
 }
 
 type Query {
@@ -16,6 +40,7 @@ type Query {
 type Mutation {
   signup(arg_0: createUserInput!): User!
   login(arg_0: loginUserInput!): User!
+  createProduct(arg_0: createProductInput!): Product!
 }
 
 """createUserInput"""
@@ -30,4 +55,13 @@ input createUserInput {
 input loginUserInput {
   email: String!
   password: String!
+}
+
+"""createProductInput"""
+input createProductInput {
+  title: String!
+  description: String!
+  phoneNumber: String!
+  images: [String!]!
+  price: Float!
 }

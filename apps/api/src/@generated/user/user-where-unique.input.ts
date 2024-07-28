@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { UserWhereInput } from './user-where.input';
 import { StringFilter } from '../prisma/string-filter.input';
+import { ProductListRelationFilter } from '../product/product-list-relation-filter.input';
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -30,4 +31,7 @@ export class UserWhereUniqueInput {
 
     @Field(() => StringFilter, {nullable:true})
     password?: StringFilter;
+
+    @Field(() => ProductListRelationFilter, {nullable:true})
+    Product?: ProductListRelationFilter;
 }

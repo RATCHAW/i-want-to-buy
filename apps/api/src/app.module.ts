@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import env from "./utils/env"
 import { AuthModule } from "./auth/auth.module"
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from "./auth/auth.module"
       isGlobal: true,
     }),
     AuthModule,
+    ProductModule,
   ],
   providers: [],
 })
