@@ -19,13 +19,13 @@ export class UserWhereInput {
     id?: IntFilter;
 
     @Field(() => StringFilter, {nullable:true})
+    email?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
     firstName?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
     lastName?: StringFilter;
-
-    @Field(() => StringFilter, {nullable:true})
-    email?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
     password?: StringFilter;

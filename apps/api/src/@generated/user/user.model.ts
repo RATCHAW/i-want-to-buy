@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
+import { HideField } from '@nestjs/graphql';
 
 @ObjectType()
 export class User {
@@ -9,14 +10,14 @@ export class User {
     id!: number;
 
     @Field(() => String, {nullable:false})
+    email!: string;
+
+    @Field(() => String, {nullable:false})
     firstName!: string;
 
     @Field(() => String, {nullable:false})
     lastName!: string;
 
-    @Field(() => String, {nullable:false})
-    email!: string;
-
-    @Field(() => String, {nullable:false})
+    @HideField()
     password!: string;
 }

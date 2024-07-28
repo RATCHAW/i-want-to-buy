@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common"
 import { UserService } from "../user/user.service"
-import { createUserSchema } from "@iwtb/schemas"
+import { createUserSchema, loginUserSchema } from "@iwtb/schemas"
 import { ZodArgs } from "nestjs-graphql-zod"
 import * as argon2 from "argon2"
-import jwt from "jsonwebtoken"
+import { sign } from "jsonwebtoken"
 import { ConfigService } from "@nestjs/config"
-import { Context } from "@nestjs/graphql"
+import { Context } from "src/types/global"
+import { UserInputError } from "@nestjs/apollo"
 
 @Injectable()
 export class AuthService {
@@ -14,14 +15,37 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async signup(createUserInput: ZodArgs.Of<typeof createUserSchema>) {
+  async signup(createUserInput: ZodArgs.Of<typeof createUserSchema>, context: Context) {
     const { password } = createUserInput
     const hashedPassword = await argon2.hash(password)
     const user = await this.userService.create({ ...createUserInput, password: hashedPassword })
     if (user) {
-      jwt.sign({ user_id: user.id }, this.configService.get<string>("JWT_ACCESSTOKEN_SECRET"))
+      const token = sign({ user_id: user.id }, this.configService.get<string>("JWT_ACCESSTOKEN_SECRET"))
+      context.res.cookie("access_token", token, {
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 30,
+      })
+      return user
     }
+  }
 
-    return user
+  async login(loginUserInput: ZodArgs.Of<typeof loginUserSchema>, context: Context) {
+    try {
+      const user = await this.userService.findByEmail(loginUserInput.email)
+
+      if (user && (await argon2.verify(user.password, loginUserInput.password))) {
+        const token = sign({ user_id: user.id }, this.configService.get<string>("JWT_ACCESSTOKEN_SECRET"))
+        context.res.cookie("access_token", token, {
+          sameSite: "lax",
+          maxAge: 60 * 60 * 24 * 30,
+        })
+
+        return user
+      } else {
+        throw new Error()
+      }
+    } catch (error) {
+      throw new UserInputError("Invalid Email or Password")
+    }
   }
 }

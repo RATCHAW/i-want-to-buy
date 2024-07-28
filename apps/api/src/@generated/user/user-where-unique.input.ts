@@ -10,6 +10,9 @@ export class UserWhereUniqueInput {
     @Field(() => Int, {nullable:true})
     id?: number;
 
+    @Field(() => String, {nullable:true})
+    email?: string;
+
     @Field(() => [UserWhereInput], {nullable:true})
     AND?: Array<UserWhereInput>;
 
@@ -24,9 +27,6 @@ export class UserWhereUniqueInput {
 
     @Field(() => StringFilter, {nullable:true})
     lastName?: StringFilter;
-
-    @Field(() => StringFilter, {nullable:true})
-    email?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
     password?: StringFilter;

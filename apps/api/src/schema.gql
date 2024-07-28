@@ -4,10 +4,9 @@
 
 type User {
   id: ID!
+  email: String!
   firstName: String!
   lastName: String!
-  email: String!
-  password: String!
 }
 
 type Query {
@@ -15,12 +14,20 @@ type Query {
 }
 
 type Mutation {
-  signup(arg_0: ClassFromZod_1!): User!
+  signup(arg_0: createUserInput!): User!
+  login(arg_0: loginUserInput!): User!
 }
 
-input ClassFromZod_1 {
+"""createUserInput"""
+input createUserInput {
   firstName: String!
   lastName: String!
+  email: String!
+  password: String!
+}
+
+"""loginUserInput"""
+input loginUserInput {
   email: String!
   password: String!
 }

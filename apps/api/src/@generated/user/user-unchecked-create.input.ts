@@ -9,13 +9,13 @@ export class UserUncheckedCreateInput {
     id?: number;
 
     @Field(() => String, {nullable:false})
+    email!: string;
+
+    @Field(() => String, {nullable:false})
     firstName!: string;
 
     @Field(() => String, {nullable:false})
     lastName!: string;
-
-    @Field(() => String, {nullable:false})
-    email!: string;
 
     @Field(() => String, {nullable:false})
     password!: string;
