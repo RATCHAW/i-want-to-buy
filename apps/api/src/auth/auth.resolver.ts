@@ -4,7 +4,6 @@ import { User } from "../@generated/user/user.model"
 import { ZodArgs } from "nestjs-graphql-zod"
 import { loginUserSchema, createUserSchema } from "@iwtb/schemas"
 import { Context as IContext } from "src/types/global"
-import { z } from "zod"
 
 @Resolver(() => User)
 export class AuthResolver {
