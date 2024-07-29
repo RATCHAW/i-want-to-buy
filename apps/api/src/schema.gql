@@ -35,6 +35,8 @@ type User {
 
 type Query {
   helloWorld: String!
+  product(id: Int!): Product!
+  products(userId: Int): [Product!]!
 }
 
 type Mutation {

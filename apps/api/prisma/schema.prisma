@@ -29,15 +29,16 @@ model User {
 }
 
 model Product {
-  id   Int  @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-
+  id          Int      @id @default(autoincrement())
   title       String
   images      String[]
   description String
   phoneNumber String
   price       Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  userId      Int
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
