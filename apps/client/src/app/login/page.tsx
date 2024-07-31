@@ -13,9 +13,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useFormState } from "react-dom"
 import { X } from "lucide-react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useEffect } from "react"
 
-export default function Login({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function Login() {
   const [state, formAction] = useFormState(loginAction, undefined)
 
   const form = useForm<z.infer<typeof loginUserSchema>>({
@@ -25,13 +24,9 @@ export default function Login({ error, reset }: { error: Error & { digest?: stri
       password: "",
     },
   })
-  useEffect(() => {
-    console.log(error)
-  }, [error])
 
   const onSubmit = (values: z.infer<typeof loginUserSchema>) => {
-    const result = formAction({ ...values })
-    console.log(result)
+    formAction({ ...values })
   }
 
   return (
