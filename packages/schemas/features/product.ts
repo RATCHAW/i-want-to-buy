@@ -8,4 +8,4 @@ export const createProductSchema = z
     images: z.array(z.string().url()),
     price: z.number(),
   })
-  .describe("createProductInput: createProductInput")
+  .describe("CreateProductInput: CreateProductInput")

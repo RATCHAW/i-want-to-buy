@@ -14,9 +14,9 @@ export class AuthResolver {
     return "hello"
   }
 
-  @Mutation(() => User)
+  @Mutation(() => String)
   async signup(
-    @ZodArgs(createUserSchema) createUserInput: ZodArgs.Of<typeof createUserSchema>,
+    @ZodArgs(createUserSchema, { name: "signupUserInput" }) createUserInput: ZodArgs.Of<typeof createUserSchema>,
     @Context() context: IContext,
   ) {
     return await this.authService.signup(createUserInput, context)
@@ -24,7 +24,7 @@ export class AuthResolver {
 
   @Mutation(() => User)
   async login(
-    @ZodArgs(loginUserSchema) loginUserInput: ZodArgs.Of<typeof loginUserSchema>,
+    @ZodArgs(loginUserSchema, { name: "loginUserInput" }) loginUserInput: ZodArgs.Of<typeof loginUserSchema>,
     @Context() context: IContext,
   ) {
     return await this.authService.login(loginUserInput, context)

@@ -19,13 +19,16 @@ export class AuthService {
     const { password } = createUserInput
     const hashedPassword = await argon2.hash(password)
     const user = await this.userService.create({ ...createUserInput, password: hashedPassword })
+
     if (user) {
       const token = sign({ user_id: user.id }, this.configService.get<string>("JWT_ACCESSTOKEN_SECRET"))
       context.res.cookie("access_token", token, {
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 30,
+        secure: true,
+        httpOnly: true,
+        sameSite: "none",
+        maxAge: 999999999999999,
       })
-      return user
+      return token
     }
   }
 
@@ -36,7 +39,9 @@ export class AuthService {
       if (user && (await argon2.verify(user.password, loginUserInput.password))) {
         const token = sign({ user_id: user.id }, this.configService.get<string>("JWT_ACCESSTOKEN_SECRET"))
         context.res.cookie("access_token", token, {
-          sameSite: "lax",
+          secure: true,
+          httpOnly: true,
+          sameSite: "none",
           maxAge: 60 * 60 * 24 * 30,
         })
 

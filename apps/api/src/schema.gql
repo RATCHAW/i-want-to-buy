@@ -40,27 +40,27 @@ type Query {
 }
 
 type Mutation {
-  signup(arg_0: createUserInput!): User!
-  login(arg_0: loginUserInput!): User!
-  createProduct(arg_0: createProductInput!): Product!
+  signup(signupUserInput: CreateUserInput!): String!
+  login(loginUserInput: LoginUserInput!): User!
+  createProduct(arg_0: CreateProductInput!): Product!
 }
 
-"""createUserInput"""
-input createUserInput {
+"""CreateUserInput"""
+input CreateUserInput {
   firstName: String!
   lastName: String!
   email: String!
   password: String!
 }
 
-"""loginUserInput"""
-input loginUserInput {
+"""LoginUserInput"""
+input LoginUserInput {
   email: String!
   password: String!
 }
 
-"""createProductInput"""
-input createProductInput {
+"""CreateProductInput"""
+input CreateProductInput {
   title: String!
   description: String!
   phoneNumber: String!
