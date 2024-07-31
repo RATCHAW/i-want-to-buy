@@ -1,9 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -13,8 +12,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useFormState } from "react-dom"
 import { X } from "lucide-react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useTransition } from "react"
 
 export default function Login() {
+  const [isPending, startTransition] = useTransition()
   const [state, formAction] = useFormState(loginAction, undefined)
 
   const form = useForm<z.infer<typeof loginUserSchema>>({
@@ -26,7 +27,9 @@ export default function Login() {
   })
 
   const onSubmit = (values: z.infer<typeof loginUserSchema>) => {
-    formAction({ ...values })
+    startTransition(() => {
+      formAction({ ...values })
+    })
   }
 
   return (
@@ -66,7 +69,7 @@ export default function Login() {
                 )}
               />
             </div>
-            <Button className="w-full">Sign in</Button>
+            <Button>{isPending ? "Logging in..." : "Login"}</Button>
           </form>
         </Form>
       </CardContent>

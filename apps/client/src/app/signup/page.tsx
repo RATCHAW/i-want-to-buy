@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useFormState } from "react-dom"
@@ -12,8 +13,10 @@ import { createUserSchema } from "@iwtb/schemas"
 import { signupAction } from "@/lib/actions"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { X } from "lucide-react"
+import { useEffect, useTransition } from "react"
 
 export default function Signup() {
+  const [isPending, startTransition] = useTransition()
   const [state, formAction] = useFormState(signupAction, undefined)
 
   const form = useForm<z.infer<typeof createUserSchema>>({
@@ -27,7 +30,9 @@ export default function Signup() {
   })
 
   const onSubmit = (values: z.infer<typeof createUserSchema>) => {
-    formAction({ ...values })
+    startTransition(() => {
+      formAction({ ...values })
+    })
   }
 
   return (
@@ -93,9 +98,7 @@ export default function Signup() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Create an account
-            </Button>
+            <Button>{isPending ? "Creating..." : "Create an account"}</Button>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
               <Link href="#" className="underline">
@@ -108,7 +111,7 @@ export default function Signup() {
       {state && (
         <Alert variant={"destructive"} className="absolute mx-auto max-w-sm mt-4 left-1/2 -translate-x-1/2">
           <X className="h-4 w-4" />
-          <AlertTitle>{state.message}</AlertTitle>
+          <AlertTitle>Error</AlertTitle>
           <AlertDescription>{state.message}</AlertDescription>
         </Alert>
       )}
