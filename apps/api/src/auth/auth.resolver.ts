@@ -22,7 +22,7 @@ export class AuthResolver {
     return await this.authService.signup(createUserInput, context)
   }
 
-  @Mutation(() => User)
+  @Mutation(() => String)
   async login(
     @ZodArgs(loginUserSchema, { name: "loginUserInput" }) loginUserInput: ZodArgs.Of<typeof loginUserSchema>,
     @Context() context: IContext,

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, UnauthorizedException } from "@nestjs/common"
 import { UserService } from "../user/user.service"
 import { createUserSchema, loginUserSchema } from "@iwtb/schemas"
 import { ZodArgs } from "nestjs-graphql-zod"
@@ -42,12 +42,12 @@ export class AuthService {
           secure: true,
           httpOnly: true,
           sameSite: "none",
-          maxAge: 60 * 60 * 24 * 30,
+          maxAge: 999999999999999,
         })
 
-        return user
+        return token
       } else {
-        throw new Error()
+        throw new UnauthorizedException()
       }
     } catch (error) {
       throw new UserInputError("Invalid Email or Password")

@@ -11,7 +11,7 @@ import { z } from "zod"
 import { createUserSchema } from "@iwtb/schemas"
 import { signupAction } from "@/lib/actions"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Terminal } from "lucide-react"
+import { X } from "lucide-react"
 
 export default function Signup() {
   const [state, formAction] = useFormState(signupAction, undefined)
@@ -107,7 +107,7 @@ export default function Signup() {
       </CardContent>
       {state && (
         <Alert variant={"destructive"} className="absolute mx-auto max-w-sm mt-4 left-1/2 -translate-x-1/2">
-          <Terminal className="h-4 w-4" />
+          <X className="h-4 w-4" />
           <AlertTitle>{state.message}</AlertTitle>
           <AlertDescription>{state.message}</AlertDescription>
         </Alert>

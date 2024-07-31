@@ -5,3 +5,9 @@ export const signupMutation = graphql(`
     signup(signupUserInput: $signupUserInput)
   }
 `)
+
+export const loginMutation = graphql(`
+  mutation Login($loginUserInput: LoginUserInput!) {
+    login(loginUserInput: $loginUserInput)
+  }
+`)

@@ -12,4 +12,4 @@ export const createApolloClient = () => {
   })
 }
 
-// export const graphqlClient = createApolloClient()
+export const graphqlClient = createApolloClient()

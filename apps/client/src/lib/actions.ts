@@ -1,9 +1,9 @@
 "use server"
 
-import { signupMutation } from "@/lib/graphql/mutations/user"
-import { createUserSchema } from "@iwtb/schemas"
+import { signupMutation, loginMutation } from "@/lib/graphql/mutations/user"
+import { createUserSchema, loginUserSchema } from "@iwtb/schemas"
 import { z } from "zod"
-import { createApolloClient } from "./apolloClient"
+import { graphqlClient } from "./apolloClient"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
@@ -12,24 +12,47 @@ type SignupActionState = {
   success?: boolean
 }
 
+type LoginActionState = {
+  message: string
+  success?: boolean
+}
+
 export async function signupAction(
   _prevState: SignupActionState | undefined,
   signupUserInput: z.infer<typeof createUserSchema>,
-): Promise<SignupActionState> {
-  const graphqlClient = createApolloClient()
-  const { data, errors } = await graphqlClient.mutate({
-    mutation: signupMutation,
-    variables: {
-      signupUserInput,
-    },
-  })
-
-  if (data) {
-    cookies().set("access_token", data.signup)
-    redirect("/")
-  } else if (errors) {
-    return { message: errors[0].message, success: false }
-  } else {
-    return { message: "Unknown error", success: false }
+): Promise<SignupActionState | undefined> {
+  try {
+    const { data } = await graphqlClient.mutate({
+      mutation: signupMutation,
+      variables: {
+        signupUserInput,
+      },
+    })
+    if (data) {
+      cookies().set("access_token", data.signup)
+    }
+  } catch (error: any) {
+    return { message: error.message, success: false }
   }
+  redirect("/")
+}
+
+export async function loginAction(
+  _prevState: LoginActionState | undefined,
+  loginUserInput: z.infer<typeof loginUserSchema>,
+): Promise<LoginActionState | undefined> {
+  try {
+    const { data } = await graphqlClient.mutate({
+      mutation: loginMutation,
+      variables: {
+        loginUserInput,
+      },
+    })
+    if (data) {
+      cookies().set("access_token", data.login)
+    }
+  } catch (error: any) {
+    return { message: error.message, success: false }
+  }
+  redirect("/")
 }
