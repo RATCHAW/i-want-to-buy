@@ -27,7 +27,15 @@ export class ProductService {
     }
   }
 
-  async findMany(userId?: number) {
-    return await prisma.product.findMany({ where: { userId: userId || undefined }, include: { user: true } })
+  async findMany(userId?: number, page?: number) {
+    const PAGE_SIZE = 16
+    const minimumPage = Math.min(page || 1, 1)
+
+    return await prisma.product.findMany({
+      where: { userId: userId || undefined },
+      include: { user: true },
+      skip: (minimumPage - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    })
   }
 }

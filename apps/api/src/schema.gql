@@ -36,7 +36,12 @@ type User {
 type Query {
   helloWorld: String!
   product(id: Int!): Product!
-  products(userId: Int): [Product!]!
+  products(findManyProductArgs: FindManyProductArgs!): [Product!]!
+}
+
+input FindManyProductArgs {
+  userId: Float
+  page: Float
 }
 
 type Mutation {

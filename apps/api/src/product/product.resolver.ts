@@ -6,6 +6,7 @@ import { createProductSchema } from "@iwtb/schemas"
 import { Context as IContext } from "src/types/global"
 import { UseGuards } from "@nestjs/common"
 import { AuthGuard } from "src/auth/auth.guard"
+import { FindManyProductArgs } from "./dto/product-find-many.dto"
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -26,7 +27,7 @@ export class ProductResolver {
   }
 
   @Query(() => [Product], { name: "products" })
-  async findProducts(@Args("userId", { type: () => Int, nullable: true }) userId?: number) {
-    return await this.productService.findMany(userId)
+  async findProducts(@Args("findManyProductArgs") { userId, page }: FindManyProductArgs) {
+    return await this.productService.findMany(userId, page)
   }
 }
