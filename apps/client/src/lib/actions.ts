@@ -1,11 +1,12 @@
 "use server"
 
 import { signupMutation, loginMutation } from "@/lib/graphql/mutations/user"
-import { createUserSchema, loginUserSchema } from "@iwtb/schemas"
+import { createProductSchema, createUserSchema, loginUserSchema } from "@iwtb/schemas"
 import { z } from "zod"
 import { graphqlClient } from "./apolloClient"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
+import { listProductMutation } from "./graphql/mutations/product"
 
 type SignupActionState = {
   message: string
@@ -56,3 +57,23 @@ export async function loginAction(
   }
   redirect("/")
 }
+
+// export async function listProductAction(
+//   _prevState: LoginActionState | undefined,
+//   loginUserInput: z.infer<typeof createProductSchema>,
+// ): Promise<LoginActionState | undefined> {
+//   try {
+//     const { data } = await graphqlClient.mutate({
+//       mutation: listProductMutation,
+//       variables: {
+//         loginUserInput,
+//       },
+//     })
+//     if (data) {
+//       cookies().set("access_token", data.login)
+//     }
+//   } catch (error: any) {
+//     return { message: error.message, success: false }
+//   }
+//   redirect("/")
+// }

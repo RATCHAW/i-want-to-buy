@@ -35,6 +35,11 @@ export type CreateUserInput = {
   password: Scalars['String']['input'];
 };
 
+export type FindManyProductArgs = {
+  page?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['Float']['input']>;
+};
+
 /** LoginUserInput */
 export type LoginUserInput = {
   email: Scalars['String']['input'];
@@ -43,14 +48,14 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createProduct: Product;
+  CreateProduct: Product;
   login: Scalars['String']['output'];
   signup: Scalars['String']['output'];
 };
 
 
 export type MutationCreateProductArgs = {
-  arg_0: CreateProductInput;
+  createProductInput: CreateProductInput;
 };
 
 
@@ -91,7 +96,7 @@ export type QueryProductArgs = {
 
 
 export type QueryProductsArgs = {
-  userId?: InputMaybe<Scalars['Int']['input']>;
+  findManyProductArgs: FindManyProductArgs;
 };
 
 export type User = {

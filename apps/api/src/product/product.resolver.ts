@@ -12,10 +12,11 @@ import { FindManyProductArgs } from "./dto/product-find-many.dto"
 export class ProductResolver {
   constructor(private readonly productService: ProductService) {}
 
-  @Mutation(() => Product)
+  @Mutation(() => Product, { name: "createProduct" })
   @UseGuards(AuthGuard)
   async createProduct(
-    @ZodArgs(createProductSchema) createProductInput: ZodArgs.Of<typeof createProductSchema>,
+    @ZodArgs(createProductSchema, { name: "createProductInput" })
+    createProductInput: ZodArgs.Of<typeof createProductSchema>,
     @Context() context: IContext,
   ) {
     return await this.productService.create(createProductInput, context)
