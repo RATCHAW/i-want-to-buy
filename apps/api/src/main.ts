@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core"
 import { AppModule } from "./app.module"
 import * as cookieParser from "cookie-parser"
 import type { NestExpressApplication } from "@nestjs/platform-express"
+import { graphqlUploadExpress } from "graphql-upload-ts"
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true })
@@ -12,6 +13,7 @@ async function bootstrap() {
   })
   app.use(cookieParser())
   app.useBodyParser("json", { limit: "20mb", extends: true })
+  app.use(graphqlUploadExpress({ maxFileSize: 5000000000000000, maxFiles: 10 }))
 
   await app.listen(4000)
 }

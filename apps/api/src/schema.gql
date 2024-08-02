@@ -47,7 +47,7 @@ input FindManyProductArgs {
 type Mutation {
   signup(signupUserInput: CreateUserInput!): String!
   login(loginUserInput: LoginUserInput!): String!
-  createProduct(createProductInput: CreateProductInput!): Product!
+  createProduct(createProductInput: ProductCreateArgs!): Product!
 }
 
 """CreateUserInput"""
@@ -64,11 +64,13 @@ input LoginUserInput {
   password: String!
 }
 
-"""CreateProductInput"""
-input CreateProductInput {
+input ProductCreateArgs {
   title: String!
   description: String!
   phoneNumber: String!
-  images: [String!]!
   price: Float!
+  images: [Upload!]!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

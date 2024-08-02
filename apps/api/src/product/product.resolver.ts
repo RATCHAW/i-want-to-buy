@@ -1,12 +1,11 @@
 import { Resolver, Query, Mutation, Args, Int, Context } from "@nestjs/graphql"
 import { ProductService } from "./product.service"
 import { Product } from "src/@generated/product/product.model"
-import { ZodArgs } from "nestjs-graphql-zod"
-import { createProductSchema } from "@iwtb/schemas"
 import { Context as IContext } from "src/types/global"
 import { UseGuards } from "@nestjs/common"
 import { AuthGuard } from "src/auth/auth.guard"
 import { FindManyProductArgs } from "./dto/product-find-many.dto"
+import { ProductCreateArgs } from "./dto/product-create"
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -15,8 +14,8 @@ export class ProductResolver {
   @Mutation(() => Product, { name: "createProduct" })
   @UseGuards(AuthGuard)
   async createProduct(
-    @ZodArgs(createProductSchema, { name: "createProductInput" })
-    createProductInput: ZodArgs.Of<typeof createProductSchema>,
+    @Args("createProductInput", { name: "createProductInput" })
+    createProductInput: ProductCreateArgs,
     @Context() context: IContext,
   ) {
     return await this.productService.create(createProductInput, context)

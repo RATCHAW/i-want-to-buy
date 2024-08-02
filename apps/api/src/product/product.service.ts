@@ -1,17 +1,24 @@
-import { createProductSchema } from "@iwtb/schemas"
 import { Injectable } from "@nestjs/common"
-import { ZodArgs } from "nestjs-graphql-zod"
 import prisma from "../config/prisma"
 import { Context } from "src/types/global"
 import { Prisma } from "@prisma/client"
 import { UserInputError } from "@nestjs/apollo"
+import { finished } from "stream/promises"
+import { ProductCreateArgs } from "./dto/product-create"
 
 @Injectable()
 export class ProductService {
-  async create(createProductInput: ZodArgs.Of<typeof createProductSchema>, context: Context) {
+  async create(createProductInput: ProductCreateArgs, context: Context) {
+    const images = createProductInput.images
+    images.forEach(async (image) => {
+      const stream = (await image).createReadStream()
+      const out = require("fs").createWriteStream("local-file-output.txt")
+      stream.pipe(out)
+      await finished(out)
+    })
     const { user_id } = context.req["user"]
     const product = await prisma.product.create({
-      data: { ...createProductInput, userId: user_id },
+      data: { ...createProductInput, images: [], userId: user_id },
     })
 
     return product
