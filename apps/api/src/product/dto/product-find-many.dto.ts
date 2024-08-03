@@ -1,10 +1,10 @@
-import { ArgsType, Field, InputType } from "@nestjs/graphql"
+import { ArgsType, Field, InputType, Int } from "@nestjs/graphql"
 
 @InputType()
 export class FindManyProductArgs {
-  @Field(() => Number, { nullable: true })
+  @Field(() => Int, { nullable: true })
   userId?: number
 
-  @Field(() => Number, { nullable: true })
+  @Field(() => Int, { nullable: true })
   page?: number
 }

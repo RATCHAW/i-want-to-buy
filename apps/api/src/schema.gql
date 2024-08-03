@@ -40,8 +40,8 @@ type Query {
 }
 
 input FindManyProductArgs {
-  userId: Float
-  page: Float
+  userId: Int
+  page: Int
 }
 
 type Mutation {
@@ -68,7 +68,7 @@ input ProductCreateArgs {
   title: String!
   description: String!
   phoneNumber: String!
-  price: Float!
+  price: Int!
   images: [Upload!]!
 }
 

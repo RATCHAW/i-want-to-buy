@@ -1,8 +1,8 @@
 import { NestFactory } from "@nestjs/core"
-import { AppModule } from "./app.module"
 import * as cookieParser from "cookie-parser"
 import type { NestExpressApplication } from "@nestjs/platform-express"
 import { graphqlUploadExpress } from "graphql-upload-ts"
+import { AppModule } from "./app.module"
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true })

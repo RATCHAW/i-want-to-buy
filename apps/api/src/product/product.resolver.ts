@@ -6,6 +6,8 @@ import { UseGuards } from "@nestjs/common"
 import { AuthGuard } from "src/auth/auth.guard"
 import { FindManyProductArgs } from "./dto/product-find-many.dto"
 import { ProductCreateArgs } from "./dto/product-create"
+import { createProductSchema } from "@iwtb/schemas"
+import { ZodValidationPipe } from "src/pipes/zod-validation.pipe"
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -14,7 +16,7 @@ export class ProductResolver {
   @Mutation(() => Product, { name: "createProduct" })
   @UseGuards(AuthGuard)
   async createProduct(
-    @Args("createProductInput", { name: "createProductInput" })
+    @Args("createProductInput", new ZodValidationPipe(createProductSchema))
     createProductInput: ProductCreateArgs,
     @Context() context: IContext,
   ) {

@@ -1,4 +1,4 @@
-import { ArgsType, Field, InputType } from "@nestjs/graphql"
+import { ArgsType, Field, InputType, Int } from "@nestjs/graphql"
 import { FileUpload, GraphQLUpload } from "graphql-upload-ts"
 
 @InputType()
@@ -12,7 +12,7 @@ export class ProductCreateArgs {
   @Field(() => String, { nullable: false })
   phoneNumber: string
 
-  @Field(() => Number, { nullable: false })
+  @Field(() => Int, { nullable: false })
   price: number
 
   @Field(() => [GraphQLUpload], { nullable: false })
